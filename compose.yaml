@@ -1,0 +1,22 @@
+---
+version: '3'
+volumes:
+  mnstr_strg:
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mnstr
+  api:
+    image: "mnstr.at/api"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - mnstr_strg:/assets
+    environment:
+      MNSTR_STRG: /assets
+      ROCKET_ADDRESS: 0.0.0.0
